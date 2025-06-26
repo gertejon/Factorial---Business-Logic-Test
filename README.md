@@ -18,7 +18,7 @@ Se presenta como problema la [duplicación de registros con nombres ligeramente 
 
 **Tamaño del dataset:** Asumimos un dataset de **3 millones** de registros.
 
-Al tratarse de un volumen tan grande de datos, realizar una comparación "todos con todos" implica un orden de complejidad (O(n$^{2}$)) $\rightarrow$ (O(3M$^{2}$)) $\rightarrow$ (O(9B)) $\rightarrow$ 9 billones de comparaciones.
+Al tratarse de un volumen tan grande de datos, realizar una comparación "todos con todos" implica un orden de complejidad O(n²) → O(3M²) → O(9B) → 9 billones de comparaciones.
 
 La manera mas efectiva de tratar datasets de tan grande tamaño, es seguir la filosofía "divide and conquer" para reducir el número de comparaciones.
 
@@ -37,8 +37,8 @@ ___
 La conexión con la base de datos para la obtención del dataset se realiza con Python, usando la librería `pandas` y `sqlalchemy`, dado que se trabaja con un dataset considerablemente grande (si se tratase de un dataset mas pequeño, se podría usar también `psycopg2`, de manera eficiente).
 
 Para trabajar de forma liviana y óptima, se obtiene únicamente los registros con su nombre e identificador.
-- `name`$\rightarrow$ Dato usado para comparar los registros entre sí
-- `id`$\rightarrow$ Tratar los datos de forma única (Primary Key)
+- `name`→ Dato usado para comparar los registros entre sí
+- `id`→ Tratar los datos de forma única (Primary Key)
 
 ```python
 import pandas as pd
@@ -102,7 +102,7 @@ Expected_clusters = [
 
 Para detectar registros duplicados, se puede realizar una comparación "todos contra todos". No obstante, dicha comparación implica una elevada complejidad, de modo que resulta más eficiente agrupar los registros en grupos limitados a un tamaño máximo, donde los registros agrupados sean potencialmente duplicaciones de un registro "maestro".
 
-Al limitar estos bloques a un tamaño máximo de 50 registros, estamos reduciendo considerablemente la complejidad del cómputo, limitándola dentro de cada bloque a O(50$^{2}$) $\rightarrow$ 2500 comparaciones por bloque (como máximo). El orden de complejidad total se calcula como `O(n*b)`, donde `n`es el número de bloques y `b` el tamaño promedio del bloque.
+Al limitar estos bloques a un tamaño máximo de 50 registros, estamos reduciendo considerablemente la complejidad del cómputo, limitándola dentro de cada bloque a O(50²) → 2500 comparaciones por bloque (como máximo). El orden de complejidad total se calcula como `O(n*b)`, donde `n`es el número de bloques y `b` el tamaño promedio del bloque.
 
 **Procedimiento resumido:**
 1. Obtención del dataset
@@ -513,8 +513,8 @@ Para unificar los datos de los registros agrupados en clústers, es necesario de
 El criterio que se ha escogido para escoger un registro maestro es el registro con identificador más antiguo (el valor mas pequeño), ya que es altamente probable de que se trate del registro original y no sea una duplicación (creado cuando ya existía un registro para la misma empresa).
 
 Dado que el dataset con el que se trabaja únicamente contiene nombres e identificadores, basta con construir un diccionario que siga la siguiente estructura:
-- `key`$\rightarrow$ id del registro duplicado
-- `value`$\rightarrow$ id del registro maestro
+- `key`→ id del registro duplicado
+- `value`→ id del registro maestro
 
 ```python
 def get_company_id_redirects(final_clusters):
