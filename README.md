@@ -1,7 +1,5 @@
 # Factorial---Business-Logic-Test
 
-# Factorial---Business-Logic-Test
-
 ## Tabla de contenidos
 
 1. [Introducción](#1-introducción)
